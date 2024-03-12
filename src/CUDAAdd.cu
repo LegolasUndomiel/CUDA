@@ -6,7 +6,13 @@ __global__ void CUDAAdd1(int a, int b, int *c) {
 }
 
 __global__ void CUDAAdd2(int *a, int *b, int *c) {
-    int tid = blockIdx.x;
+    int tid = blockIdx.x; // N个线程块 x 1个线程/线程块 = N个并行线程
+    if (tid < N)
+        c[tid] = a[tid] + b[tid];
+}
+
+__global__ void CUDAAdd3(int *a, int *b, int *c) {
+    int tid = threadIdx.x;
     if (tid < N)
         c[tid] = a[tid] + b[tid];
 }
@@ -84,9 +90,43 @@ void test03() {
         printf("%d + %d = %d\n", a[i], b[i], c[i]);
 }
 
+void test04() {
+    int a[N], b[N], c[N];
+    int *dev_a, *dev_b, *dev_c;
+
+    // 赋值
+    for (int i = 0; i < N; i++) {
+        a[i] = -i + i * i;
+        b[i] = i * i * i;
+    }
+
+    // GPU上分配内存
+    cudaMalloc((void**)&dev_a, N * sizeof(int));
+    cudaMalloc((void**)&dev_b, N * sizeof(int));
+    cudaMalloc((void**)&dev_c, N * sizeof(int));
+
+    // 拷贝数据
+    cudaMemcpy(dev_a, a, N * sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(dev_b, b, N * sizeof(int), cudaMemcpyHostToDevice);
+
+    // GPU计算
+    // 1个线程块,开启N个线程
+    CUDAAdd3<<<1,N>>>(dev_a, dev_b, dev_c);
+
+    // 拷贝计算结果,释放GPU内存
+    cudaMemcpy(c, dev_c, N * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaFree(dev_a);
+    cudaFree(dev_b);
+    cudaFree(dev_c);
+
+    for (int i = 0; i < N; i++)
+        printf("%d + %d = %d\n", a[i], b[i], c[i]);
+}
+
 int main(int argc, char const *argv[]) {
     // test01();
     // test02();
-    test03();
+    // test03();
+    test04();
     return 0;
 }
