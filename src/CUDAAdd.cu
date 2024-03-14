@@ -1,6 +1,19 @@
 #include <iostream>
 #define N 1024
 
+void test01();
+void test02();
+void test03();
+void test04();
+
+void CPUAdd(int *a, int *b, int *c) {
+    int tid = 0;
+    while (tid < N) {
+        c[tid] = a[tid] + b[tid];
+        tid++;
+    }
+}
+
 __global__ void CUDAAdd1(int a, int b, int *c) {
     *c = a + b;
 }
@@ -17,12 +30,12 @@ __global__ void CUDAAdd3(int *a, int *b, int *c) {
         c[tid] = a[tid] + b[tid];
 }
 
-void CPUAdd(int *a, int *b, int *c) {
-    int tid = 0;
-    while (tid < N) {
-        c[tid] = a[tid] + b[tid];
-        tid++;
-    }
+int main(int argc, char const *argv[]) {
+    // test01();
+    // test02();
+    // test03();
+    test04();
+    return 0;
 }
 
 void test01() {
@@ -121,12 +134,4 @@ void test04() {
 
     for (int i = 0; i < N; i++)
         printf("%d + %d = %d\n", a[i], b[i], c[i]);
-}
-
-int main(int argc, char const *argv[]) {
-    // test01();
-    // test02();
-    // test03();
-    test04();
-    return 0;
 }
