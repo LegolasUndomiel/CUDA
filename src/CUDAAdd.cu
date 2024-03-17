@@ -1,10 +1,12 @@
 #include <iostream>
 #define N 1024
 
+void test00();
 void test01();
 void test02();
 void test03();
 void test04();
+void test05();
 
 void CPUAdd(int *a, int *b, int *c) {
     int tid = 0;
@@ -31,11 +33,50 @@ __global__ void CUDAAdd3(int *a, int *b, int *c) {
 }
 
 int main(int argc, char const *argv[]) {
+    // test00();
     // test01();
     // test02();
     // test03();
-    test04();
+    // test04();
     return 0;
+}
+
+void test00() {
+    cudaDeviceProp prop;
+    int count;
+    cudaGetDeviceCount(&count);
+    for (int i=0; i< count; i++) {
+        cudaGetDeviceProperties(&prop, i);
+        printf("--- General Information for device %d ---\n", i);
+        printf("Name: %s\n", prop.name );
+        printf("Compute capability: %d.%d\n", prop.major, prop.minor);
+        printf("Clock rate: %d\n", prop.clockRate);
+        printf("Device copy overlap: ");
+        if (prop.deviceOverlap)
+            printf("Enabled\n");
+        else
+            printf("Disabled\n");
+        printf("Kernel execition timeout : ");
+        if (prop.kernelExecTimeoutEnabled)
+            printf("Enabled\n");
+        else
+            printf("Disabled\n");
+
+        printf("--- Memory Information for device %d ---\n", i);
+        printf("Total global mem: %ld\n", prop.totalGlobalMem);
+        printf("Total constant Mem: %ld\n", prop.totalConstMem);
+        printf("Max mem pitch: %ld\n", prop.memPitch);
+        printf("Texture Alignment: %ld\n", prop.textureAlignment);
+
+        printf("--- MP Information for device %d ---\n", i);
+        printf("Multiprocessor count: %d\n", prop.multiProcessorCount);
+        printf("Shared mem per mp: %ld\n", prop.sharedMemPerBlock);
+        printf("Registers per mp: %d\n", prop.regsPerBlock);
+        printf("Threads in warp: %d\n", prop.warpSize);
+        printf("Max threads per block: %d\n", prop.maxThreadsPerBlock);
+        printf("Max thread dimensions: (%d, %d, %d)\n", prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2]);
+        printf("Max grid dimensions: (%d, %d, %d)\n", prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2]);
+    }
 }
 
 void test01() {
