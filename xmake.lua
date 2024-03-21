@@ -21,3 +21,19 @@ target("CUDAAdd")
     set_kind("binary")
 
     add_files("src/CUDAAdd.cu")
+
+target("MandelbrotSetC")
+    set_kind("binary")
+
+    add_files("src/MandelbrotSet.c")
+
+target("MandelbrotSetCPP")
+    set_kind("binary")
+    add_ldflags("-pthread")
+
+    add_files("src/MandelbrotSet.cpp")
+
+target("MandelbrotSetCUDA")
+    set_kind("binary")
+
+    add_files("src/MandelbrotSet.cu")
