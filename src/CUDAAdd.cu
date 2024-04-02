@@ -8,6 +8,7 @@ void test03();
 void test04();
 void test05();
 void test06();
+void test07();
 
 void CPUAdd(int *a, int *b, int *c) {
     int tid = 0;
@@ -15,6 +16,19 @@ void CPUAdd(int *a, int *b, int *c) {
         c[tid] = a[tid] + b[tid];
         tid++;
     }
+}
+
+int addArray(int *array, int len) {
+    int low = 0, high = len - 1;
+    while (len >= 2)
+    {
+        while (low < high)
+            array[low++] += array[high--];
+        len = (len + 1) / 2;
+        low = 0;
+        high = len - 1;
+    }
+    return array[0];
 }
 
 __global__ void CUDAAdd1(int a, int b, int *c) {
@@ -54,7 +68,8 @@ int main(int argc, char const *argv[]) {
     // test03();
     // test04();
     // test05();
-    test06();
+    // test06();
+    test07();
     return 0;
 }
 
@@ -256,4 +271,13 @@ void test06() {
 
     for (int i = 0; i < N; i++)
         printf("%d + %d = %d\n", a[i], b[i], c[i]);
+}
+
+void test07() {
+    int array[100];
+    for (int i = 0; i < 100; i++)
+        array[i] = i + 1;
+
+    int result = addArray(array, 100);
+    printf("result = %d\n", result);
 }
