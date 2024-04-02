@@ -17,6 +17,21 @@ on_clean(function (target)
     os.rm("$(buildir)")
 end)
 
+target("omptest")
+    set_kind("binary")
+
+    add_files("src/omptest.cc")
+
+    if is_plat("linux") then
+        add_cxxflags("-fopenmp")
+
+        add_ldflags("-fopenmp")
+    elseif is_plat("windows") then
+        add_cxxflags("/openmp")
+
+        add_ldflags("/openmp")
+    end
+
 target("CUDAAdd")
     set_kind("binary")
 
