@@ -1,6 +1,3 @@
--- 工程名称
-set_project("CUDA")
-
 -- 模式添加
 add_rules("mode.debug", "mode.release")
 
@@ -37,6 +34,8 @@ target("CUDAAdd")
 
     add_files("src/CUDAAdd.cu")
 
+    add_cugencodes("native")
+
 target("MandelbrotSetC")
     set_kind("binary")
 
@@ -52,3 +51,12 @@ target("MandelbrotSetCUDA")
     set_kind("binary")
 
     add_files("src/MandelbrotSet.cu")
+
+    add_cugencodes("native")
+
+target("CalIntegral")
+    set_kind("binary")
+
+    add_files("src/CalIntegral.cu")
+
+    add_cugencodes("native")
