@@ -60,7 +60,7 @@ target("CalIntegral")
     add_includedirs("$(env CUDA_PATH)/include")
     add_files("src/CalIntegral.cu")
 
-    add_cugencodes("native")
+    add_cugencodes("sm_86")
 
     if is_plat("linux") then
         add_cxxflags("-fopenmp")
