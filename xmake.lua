@@ -57,6 +57,25 @@ target("MandelbrotSetCUDA")
 target("CalIntegral")
     set_kind("binary")
 
+    add_includedirs("$(env CUDA_PATH)/include")
     add_files("src/CalIntegral.cu")
 
     add_cugencodes("native")
+
+    if is_plat("linux") then
+        add_cxxflags("-fopenmp")
+
+        add_ldflags("-fopenmp")
+
+        add_cuflags("-Xcompiler -fopenmp")
+
+        add_culdflags("-Xcompiler -fopenmp")
+    elseif is_plat("windows") then
+        add_cxxflags("/openmp")
+
+        add_ldflags("/openmp")
+
+        add_cuflags("-Xcompiler /openmp")
+
+        add_culdflags("-Xcompiler /openmp")
+    end

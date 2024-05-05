@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 #define WIDTH 8192
 #define HEIGHT 8192
 #define MAX_ITERATIONS 8000
