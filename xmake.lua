@@ -1,6 +1,9 @@
 -- 模式添加
 add_rules("mode.debug", "mode.release")
 
+-- 设置编码格式
+set_encodings("utf-8")
+
 -- 设置编译标准
 set_languages("c++11")
 
