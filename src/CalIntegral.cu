@@ -17,17 +17,16 @@ void test01(int, int);
 __host__ __device__ inline float calculateSine(float, int = 1000);
 __host__ __device__ inline float calculateCosine(float, int = 1000);
 
-double trapezoidalIntegral(int n, float a, float b, float (*fun)(float, int),
-                           int terms = 1000);
-double trapezoidalIntegralOMP(int n, float a, float b, float (*fun)(float, int),
-                              int terms = 1000);
-double trapezoidalIntegralOMPArray(int n, float a, float b,
-                                   float (*fun)(float, int), int terms = 1000);
-__global__ void trapezoidalIntegralCUDA(float *sum, int n, float a, float h,
-                                        int terms = 1000);
+double trapezoidalIntegral(int, float, float, float (*fun)(float, int),
+                           int = 1000);
+double trapezoidalIntegralOMP(int, float, float, float (*fun)(float, int),
+                              int = 1000);
+double trapezoidalIntegralOMPArray(int, float, float, float (*fun)(float, int),
+                                   int = 1000);
+__global__ void trapezoidalIntegralCUDA(float *, int, float, float, int = 1000);
 
 void Timer(double (*fun)(int, float, float, float (*)(float, int), int),
-           float (*cal)(float, int), int steps, int terms);
+           float (*cal)(float, int), int, int = 1000);
 
 int main(int argc, char const *argv[]) {
     int steps = (argc > 1) ? atoi(argv[1]) : 1000000;
