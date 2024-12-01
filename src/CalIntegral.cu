@@ -14,21 +14,26 @@ using std::endl;
 
 void test01(int, int);
 
+// 设置变量默认值 int = 1000
 __host__ __device__ inline float calculateSine(float, int = 1000);
 __host__ __device__ inline float calculateCosine(float, int = 1000);
 
+// 函数指针
 double trapezoidalIntegral(int, float, float, float (*fun)(float, int),
                            int = 1000);
 double trapezoidalIntegralOMP(int, float, float, float (*fun)(float, int),
                               int = 1000);
 double trapezoidalIntegralOMPArray(int, float, float, float (*fun)(float, int),
                                    int = 1000);
+
+// host端调用，device端运行
 __global__ void trapezoidalIntegralCUDA(float *, int, float, float, int = 1000);
 
 void Timer(double (*fun)(int, float, float, float (*)(float, int), int),
            float (*cal)(float, int), int, int = 1000);
 
 int main(int argc, char const *argv[]) {
+    // 简单实现参数输入
     int steps = (argc > 1) ? atoi(argv[1]) : 1000000;
     int terms = (argc > 2) ? atoi(argv[2]) : 1000;
 
