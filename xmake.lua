@@ -15,7 +15,10 @@ on_clean(function (target)
     print("All Files Deleted")
     -- 删除所有文件
     os.rm("$(buildir)")
+    os.rm(target:targetdir())
 end)
+
+set_targetdir("bin")
 
 target("omptest")
     set_kind("binary")
